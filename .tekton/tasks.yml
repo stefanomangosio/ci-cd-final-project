@@ -1,18 +1,18 @@
-apiversion: tekton.dev/v1beta1
-Kind: Task
+apiVersion: tekton.dev/v1beta1
+kind: Task
 metadata:
   name: Cleanup
 spec:
   description: Tekton task
-  Workspace: 
+  workspaces: 
     - name: source
   steps:
     - name: Remove
       image: alpine:3
       env:
-        name: WORKSPACE_SOURCE_PATH
-        value: $(workspace.source.path)
-      workingdir: $(workspace.source.path)
+        - name: WORKSPACE_SOURCE_PATH
+          value: $(workspace.source.path)
+      workingDir: $(workspace.source.path)
       securityContext:
         runAsNonRoot: false
         runAsUser: 0
@@ -33,13 +33,13 @@ spec:
         rm -rf "${WORKSPACE_SOURCE_PATH}"/..?*
         fi
 ---
-apiversion: tekton.dev/v1beta1
-Kind: Task
+apiVersion: tekton.dev/v1beta1
+kind: Task
 metadata:
   name: nose
 spec:
   description: Tekton task
-  Workspace: 
+  workspaces: 
     - name: source
   params:
     - name: args
